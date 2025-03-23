@@ -1,43 +1,65 @@
-import React, { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import React, { useEffect, useState } from "react";
+import { checkRemoteEntryStatus } from "./utils/checkRemoteEntryStatus";
+import Home from "./components/Home";
 
-// Remote component
-const Welcome = React.lazy(() => import("welcomePage/Welcome"));
-const Button = React.lazy(() => import("welcomePage/Button"));
-import useCount from "welcomePage/store";
+const urls = [
+  "http://localhost:5501/assets/remoteEntry.js",
+  // "http://localhost:5502/assets/remoteEntry.js",
+  // "http://localhost:5503/assets/remoteEntry.js",
+];
 
-function App() {
-  // const [count, setCount] = useState(0);
-  const [count, setCount] = useCount();
+// Home Component
+/* const Home = React.lazy(async () => {
+  const { default: useCount } = await import("welcomePage/store");
+  return {
+    default: () => {
+      const [count, setCount] = useCount();
+      return (
+        <div>
+          <h1>Count: {count}</h1>
+          <button onClick={() => setCount((prev: number) => prev + 1)}>
+            Increment
+          </button>
+        </div>
+      );
+    },
+  };
+}); */
+
+const App: React.FC = () => {
+  const [isReady, setIsReady] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const runCheck = async () => {
+      try {
+        const results = await checkRemoteEntryStatus(urls);
+        if (results.every((result) => result.status === "success")) {
+          setIsReady(true);
+        } else {
+          setError("Some remote modules failed to load.");
+        }
+      } catch (err) {
+        setError("Failed to check remote modules.");
+      }
+    };
+
+    runCheck();
+  }, []);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!isReady) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <Welcome />
-      <Button />
-    </>
+    <React.Suspense fallback={<div>Loading Home...</div>}>
+      <Home />
+    </React.Suspense>
   );
-}
+};
 
 export default App;

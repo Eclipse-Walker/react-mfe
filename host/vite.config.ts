@@ -17,6 +17,7 @@ export default defineConfig({
       name: "host",
       remotes: {
         welcomePage: "http://localhost:5501/assets/remoteEntry.js",
+        welcomePage2: "http://localhost:5502/assets/remoteEntry.js",
       },
       shared: ["react", "react-dom"],
     }),
