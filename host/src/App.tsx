@@ -1,84 +1,16 @@
-// import React, { useEffect, useState } from "react";
-// import { checkRemoteEntryStatus } from "./utils/checkRemoteEntryStatus";
-// import Home from "./components/Home";
-
-// const urls = [
-//   "http://localhost:5501/assets/remoteEntry.js",
-//   // "http://localhost:5502/assets/remoteEntry.js",
-//   // "http://localhost:5503/assets/remoteEntry.js",
-// ];
-
-// Home Component
-/* const Home = React.lazy(async () => {
-  const { default: useCount } = await import("welcomePage/store");
-  return {
-    default: () => {
-      const [count, setCount] = useCount();
-      return (
-        <div>
-          <h1>Count: {count}</h1>
-          <button onClick={() => setCount((prev: number) => prev + 1)}>
-            Increment
-          </button>
-        </div>
-      );
-    },
-  };
-}); */
-
-/* // Workaround for remote module loading
-const App: React.FC = () => {
-  const [isReady, setIsReady] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const runCheck = async () => {
-      try {
-        const results = await checkRemoteEntryStatus(urls);
-        if (results.every((result) => result.status === "success")) {
-          setIsReady(true);
-        } else {
-          setError("Some remote modules failed to load.");
-        }
-      } catch (err) {
-        setError("Failed to check remote modules.");
-      }
-    };
-
-    runCheck();
-  }, []);
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  if (!isReady) {
-    return <div>Loading...</div>;
-  }
-
-  return (
-    <React.Suspense fallback={<div>Loading Home...</div>}>
-      <Home />
-    </React.Suspense>
-  );
-};
-
-export default App; */
-
 import React, { useEffect, useState } from "react";
 
-const Home = React.lazy(() => import("./components/Home")); // โหลดหน้า Home ปกติ
+const Home = React.lazy(() => import("./components/Home"));
 
 const App: React.FC = () => {
-  const [isRemoteReady, setIsRemoteReady] = useState(false); // เช็คสถานะ remote
-  const [error, setError] = useState<string | null>(null); // เก็บ error message
+  const [isRemoteReady, setIsRemoteReady] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const checkRemote = async () => {
       try {
-        // ตรวจสอบ Remote Module
-        await import("welcomePage/store"); // ลองโหลด Remote Module
-        setIsRemoteReady(true); // พร้อมใช้งาน
+        await import("welcomePage/store");
+        setIsRemoteReady(true);
       } catch (err) {
         console.error("Failed to load remote module:", err);
         setError("Remote module is not available. Please try again later.");
@@ -89,7 +21,6 @@ const App: React.FC = () => {
   }, []);
 
   if (error) {
-    // แสดง UI แจ้งผู้ใช้เมื่อ Remote Module ไม่พร้อม
     return (
       <div style={styles.container}>
         <div style={styles.errorBox}>
@@ -97,7 +28,7 @@ const App: React.FC = () => {
           <p style={styles.errorMessage}>{error}</p>
           <button
             style={styles.retryButton}
-            onClick={() => window.location.reload()} // ปุ่มโหลดใหม่
+            onClick={() => window.location.reload()}
           >
             Retry
           </button>
@@ -107,7 +38,6 @@ const App: React.FC = () => {
   }
 
   if (!isRemoteReady) {
-    // แสดง Loading UI ระหว่างตรวจสอบ Remote Module
     return (
       <div style={styles.container}>
         <div style={styles.loadingBox}>
@@ -127,19 +57,18 @@ const App: React.FC = () => {
 
 export default App;
 
-// Styles
 const styles = {
-  container: {
+  container: {  
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "100vh",
+    // height: "100vh",
     fontFamily: '"Arial", sans-serif',
     backgroundColor: "#f4f4f9",
     margin: 0,
   },
   errorBox: {
-    textAlign: "center",
+    textAlign: "center" as const,
     padding: "20px",
     borderRadius: "10px",
     backgroundColor: "#ffe9e9",
@@ -167,7 +96,7 @@ const styles = {
     boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
   },
   loadingBox: {
-    textAlign: "center",
+    textAlign: "center" as const,
     padding: "20px",
     borderRadius: "10px",
     backgroundColor: "#e3f2fd",
