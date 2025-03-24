@@ -1,7 +1,7 @@
 const Welcome = () => {
   return (
     <>
-      <h1>Remote:Welcome Page</h1>
+      <h1>Remote: Vite + React</h1>
     </>
   );
 };

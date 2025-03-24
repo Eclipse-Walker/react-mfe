@@ -1,12 +1,20 @@
-// import { useState } from "react";
+import React, { } from "react";
 import useCount from "../store/Store";
 
-const Button = () => {
+const Button: React.FC = () => {
   const [count, setCount] = useCount();
 
   return (
     <>
-      <button onClick={() => setCount((count) => count + 1)}>
+      <button
+        style={{
+          backgroundColor: "white",
+          border: "2px solid #000",
+          color: "black",
+          borderRadius: "10px",
+          height: '1.5em',
+        }}
+        onClick={() => setCount((count) => count + 1)}>
         count is {count}
       </button>
     </>

@@ -7,7 +7,7 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const checkRemote = async () => {
+    const checkRemote = async (): Promise<void> => {
       try {
         await import("welcomePage/store");
         setIsRemoteReady(true);
@@ -58,14 +58,14 @@ const App: React.FC = () => {
 export default App;
 
 const styles = {
-  container: {  
+  container: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    // height: "100vh",
+    height: "100vh",
     fontFamily: '"Arial", sans-serif',
     backgroundColor: "#f4f4f9",
-    margin: 0,
+    // margin: 0,
   },
   errorBox: {
     textAlign: "center" as const,
