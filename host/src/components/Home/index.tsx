@@ -5,7 +5,6 @@ import CompletedTaskCounter from "../CompleatedTaskCounter";
 const Welcome = React.lazy(() => import("welcomePage/Welcome"));
 const Button = React.lazy(() => import("welcomePage/Button"));
 const Todo = React.lazy(() => import("welcomePage/Todo"));
-// const TodoList = React.lazy(() => import("welcomePage/TodoList"));
 
 import useCount from "welcomePage/store";
 import useList from "welcomePage/listStore";
@@ -27,7 +26,7 @@ const LineStyle: React.FC = () => {
 const Home = () => {
   const [count, setCount] = useCount();
   const [list] = useList();
-  // console.log("list", list);
+
   return (
     <>
       <div
