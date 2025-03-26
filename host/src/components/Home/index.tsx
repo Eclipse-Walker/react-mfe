@@ -1,6 +1,7 @@
 import React from "react";
 
 import CompletedTaskCounter from "../CompleatedTaskCounter";
+import RemoteCheckerPage from "../RemoteCheckerPage";
 
 const Welcome = React.lazy(() => import("welcomePage/Welcome"));
 const Button = React.lazy(() => import("welcomePage/Button"));
@@ -64,6 +65,8 @@ const Home = () => {
         <Button />
         <Todo />
 
+        <LineStyle />
+        <RemoteCheckerPage />
         <LineStyle />
       </div>
     </>
