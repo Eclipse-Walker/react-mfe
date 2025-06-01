@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import HostApp from "./HostApp";
 
 const Home = React.lazy(() => import("../Home"));
 
@@ -51,6 +52,7 @@ const InitialPage: React.FC = () => {
   return (
     <React.Suspense fallback={<div>Loading Home...</div>}>
       <Home />
+      <HostApp />
     </React.Suspense>
   );
 };

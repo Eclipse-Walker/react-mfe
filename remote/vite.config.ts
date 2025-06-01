@@ -15,6 +15,10 @@ export default defineConfig({
     federation({
       name: "remote",
       filename: "remoteEntry.js",
+      remotes: {
+        // host: "http://localhost:5500/assets/remoteEntry.js",
+        hostRemote: "http://localhost:5500/assets/remoteEntryHost.js",
+      },
       exposes: {
         "./Welcome": "./src/components/Welcome",
         "./Button": "./src/components/Button",
