@@ -192,7 +192,7 @@ const DynamicForm: React.FC<Props> = ({ config, onSubmit }) => {
             variant="outlined"
             fullWidth
             error={!!errors[field.name]}
-            helperText={errors[field.name]?.message}
+            helperText={errors[field.name]?.message as React.ReactNode}
             margin="normal"
           />
         );
@@ -212,7 +212,7 @@ const DynamicForm: React.FC<Props> = ({ config, onSubmit }) => {
             </RadioGroup>
             {errors[field.name] && (
               <FormHelperText error>
-                {errors[field.name]?.message}
+                {errors[field.name]?.message as React.ReactNode}
               </FormHelperText>
             )}
           </FormControl>
@@ -237,7 +237,7 @@ const DynamicForm: React.FC<Props> = ({ config, onSubmit }) => {
             </Select>
             {errors[field.name] && (
               <FormHelperText error>
-                {errors[field.name]?.message}
+                {errors[field.name]?.message as React.ReactNode}
               </FormHelperText>
             )}
           </FormControl>
@@ -252,7 +252,7 @@ const DynamicForm: React.FC<Props> = ({ config, onSubmit }) => {
             rows={4} // กำหนดจำนวนบรรทัดใน textarea
             fullWidth
             error={!!errors[field.name]}
-            helperText={errors[field.name]?.message}
+            helperText={errors[field.name]?.message as React.ReactNode}
             margin="normal"
           />
         );
