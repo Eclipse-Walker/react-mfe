@@ -21,6 +21,15 @@ const InitialPage: React.FC = () => {
     checkRemote();
   }, []);
 
+  const HomePage: React.FC = () => {
+    return (
+      <>
+        <Home />
+        <HostApp />
+      </>
+    );
+  };
+
   if (error) {
     return (
       <div style={styles.container}>
@@ -51,8 +60,7 @@ const InitialPage: React.FC = () => {
 
   return (
     <React.Suspense fallback={<div>Loading Home...</div>}>
-      <Home />
-      <HostApp />
+      <HomePage />
     </React.Suspense>
   );
 };

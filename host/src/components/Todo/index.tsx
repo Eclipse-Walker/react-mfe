@@ -1,4 +1,4 @@
-/* import React from "react";
+import React from "react";
 import Navbar from "../Navbar";
 
 import CompletedTaskCounter from "../CompleatedTaskCounter";
@@ -10,6 +10,7 @@ const Todo = React.lazy(() => import("welcomePage/Todo"));
 
 import useCount from "welcomePage/store";
 import useList from "welcomePage/listStore";
+import HostApp from "../InitialPage/HostApp";
 
 const LineStyle: React.FC = () => {
   return (
@@ -25,7 +26,7 @@ const LineStyle: React.FC = () => {
   );
 };
 
-const Home = () => {
+const TodoPage = () => {
   const [count, setCount] = useCount();
   const [list] = useList();
 
@@ -70,19 +71,10 @@ const Home = () => {
         <LineStyle />
         <RemoteCheckerPage />
         <LineStyle />
+        <HostApp />
       </div>
     </>
   );
 };
 
-export default Home;
- */
-import Navbar from "../Navbar";
-export default function Home() {
-  return (
-    <>
-      <Navbar />
-      <h1>Home</h1>;
-    </>
-  );
-}
+export default TodoPage;
