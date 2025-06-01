@@ -15,10 +15,15 @@ export default defineConfig({
     react(),
     federation({
       name: "host",
+      filename: "remoteEntryHost.js",
       remotes: {
         welcomePage: "http://localhost:5501/assets/remoteEntry.js",
+        // welcomePage2: "http://localhost:5502/assets/remoteEntry.js",
       },
-      shared: ["react", "react-dom"],
+      exposes: {
+        "./sharedStore": "./src/store/sharedStore", // Expose Jotai Store
+      },
+      shared: ["react", "react-dom", "jotai"],
     }),
   ],
 });

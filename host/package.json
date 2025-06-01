@@ -11,8 +11,12 @@
     "serve": "npm run build && vite preview --port 5500 --strictPort"
   },
   "dependencies": {
+    "jotai": "^2.12.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.56.4",
+    "react-router": "^7.6.1",
+    "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
