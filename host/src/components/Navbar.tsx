@@ -14,6 +14,12 @@ const Navbar: React.FC = () => {
       <Link style={{ marginRight: "10px" }} to="/form">
         Form
       </Link>
+      <Link style={{ marginRight: "10px" }} to="/formpage">
+        FormPage
+      </Link>
+      <Link style={{ marginRight: "10px" }} to="/registration">
+        Registration
+      </Link>
     </nav>
   );
 };
