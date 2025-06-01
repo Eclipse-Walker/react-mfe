@@ -5,6 +5,7 @@ import TodoPage from "./pages/Todo/index.tsx";
 import Home from "./pages/Home/index.tsx";
 import FormPage from "./pages/FormPage/index.tsx";
 import RegistrationPage from "./pages/Registration/index.tsx";
+import PatientRegistrationPage from "./pages/Patient/index.tsx";
 
 const App: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const App: React.FC = () => {
       <Route path="/form" element={<Form />} />
       <Route path="/formpage" element={<FormPage />} />
       <Route path="/registration" element={<RegistrationPage />} />
+      <Route path="/patient" element={<PatientRegistrationPage />} />
     </Routes>
   );
 };
