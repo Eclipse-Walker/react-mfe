@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Home from "../components/Home";
+import Home from "../pages/Home";
 
 type UrlStatus = {
   url: string;

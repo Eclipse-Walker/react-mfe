@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import HostApp from "./HostApp";
 
-const Home = React.lazy(() => import("../Home"));
+const Home = React.lazy(() => import("../../pages/Home"));
 
 const InitialPage: React.FC = () => {
   const [isRemoteReady, setIsRemoteReady] = useState(false);

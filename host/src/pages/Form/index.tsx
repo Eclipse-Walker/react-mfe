@@ -4,7 +4,7 @@ export function Form() {
   return (
     <>
       <Navbar />
-      <h1>Form</h1>;
+      <h1>Form</h1>
     </>
   );
 }
