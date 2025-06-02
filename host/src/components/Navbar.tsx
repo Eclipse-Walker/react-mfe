@@ -23,6 +23,9 @@ const Navbar: React.FC = () => {
       <Link style={{ marginRight: "10px" }} to="/patient">
         Patient
       </Link>
+      <Link style={{ marginRight: "10px" }} to="/job">
+        Job
+      </Link>
     </nav>
   );
 };

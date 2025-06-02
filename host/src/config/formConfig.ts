@@ -268,3 +268,197 @@ export const patientRegistrationFormConfig = [
     ],
   },
 ];
+
+export const jobApplicationFormConfig = [
+  {
+    section: "Job Application Form",
+    description:
+      "Thank you for your interest in working with us. Please check below for available job opportunities that meet your criteria and send your application by filling out the Job Application Form.",
+    fields: [
+      {
+        name: "firstName",
+        label: "First",
+        type: "text",
+        grid: { xs: 6 },
+      },
+      {
+        name: "lastName",
+        label: "Last",
+        type: "text",
+        grid: { xs: 6 },
+      },
+      {
+        name: "email",
+        label: "Email",
+        type: "email",
+        grid: { xs: 12 },
+      },
+      {
+        name: "position",
+        label: "What position are you applying for?",
+        type: "select",
+        options: ["", "Designer", "Developer", "Manager", "QA"],
+        grid: { xs: 6 },
+      },
+      {
+        name: "availableDate",
+        label: "Available date",
+        type: "date",
+        grid: { xs: 6 },
+      },
+      {
+        name: "employeeStatus",
+        label: "What is your current employee status?",
+        type: "radio",
+        options: ["Employed", "Unemployed", "Self-Employed", "Student"],
+        grid: { xs: 12 },
+      },
+      {
+        name: "resumeLink",
+        label: "Please provide your resume link",
+        type: "url",
+        grid: { xs: 6 },
+      },
+      {
+        name: "resumeUpload",
+        label: "Please upload your resume",
+        type: "file",
+        grid: { xs: 6 },
+      },
+      {
+        name: "referenceFirst",
+        label: "First",
+        type: "text",
+        optional: true,
+        grid: { xs: 6 },
+      },
+      {
+        name: "referenceLast",
+        label: "Last",
+        type: "text",
+        optional: true,
+        grid: { xs: 6 },
+      },
+      {
+        name: "referenceEmail",
+        label: "Reference email",
+        type: "email",
+        optional: true,
+        grid: { xs: 12 },
+      },
+    ],
+    actions: [
+      {
+        type: "reset",
+        label: "Reset",
+      },
+      {
+        type: "submit",
+        label: "Apply",
+      },
+    ],
+  },
+];
+
+/* export const jobApplicationFormConfig = [
+  {
+    section: "Job Application Form",
+    description:
+      "Thank you for your interest in working with us. Please check below for available job opportunities that meet your criteria and send your application by filling out the Job Application Form.",
+    fields: [
+      {
+        type: "group",
+        grid: { xs: 12 },
+        fields: [
+          {
+            name: "firstName",
+            label: "First",
+            type: "text",
+            grid: { xs: 6 },
+          },
+          {
+            name: "lastName",
+            label: "Last",
+            type: "text",
+            grid: { xs: 6 },
+          },
+        ],
+      },
+      {
+        name: "email",
+        label: "Email",
+        type: "email",
+        grid: { xs: 12 },
+      },
+      {
+        name: "position",
+        label: "What position are you applying for?",
+        type: "select",
+        options: ["", "Designer", "Developer", "Manager", "QA"],
+        grid: { xs: 6 },
+      },
+      {
+        name: "availableDate",
+        label: "Available date",
+        type: "date",
+        grid: { xs: 6 },
+      },
+      {
+        name: "employeeStatus",
+        label: "What is your current employee status?",
+        type: "radio",
+        options: ["Employed", "Unemployed", "Self-Employed", "Student"],
+        grid: { xs: 12 },
+      },
+      {
+        name: "resumeLink",
+        label: "Please provide your resume link",
+        type: "url",
+        grid: { xs: 6 },
+      },
+      {
+        name: "resumeUpload",
+        label: "Please upload your resume",
+        type: "file",
+        grid: { xs: 6 },
+      },
+      {
+        type: "group",
+        grid: { xs: 12 },
+        fields: [
+          {
+            name: "referenceFirst",
+            label: "First",
+            type: "text",
+            optional: true,
+            grid: { xs: 6 },
+          },
+          {
+            name: "referenceLast",
+            label: "Last",
+            type: "text",
+            optional: true,
+            grid: { xs: 6 },
+          },
+        ],
+      },
+      {
+        name: "referenceEmail",
+        label: "Reference email",
+        type: "email",
+        optional: true,
+        grid: { xs: 12 },
+      },
+    ],
+    actions: [
+      {
+        type: "reset",
+        label: "Reset",
+      },
+      {
+        type: "submit",
+        label: "Apply",
+      },
+    ],
+  },
+]; */

@@ -6,6 +6,7 @@ import Home from "./pages/Home/index.tsx";
 import FormPage from "./pages/FormPage/index.tsx";
 import RegistrationPage from "./pages/Registration/index.tsx";
 import PatientRegistrationPage from "./pages/Patient/index.tsx";
+import JobApplication from "./pages/Job/index.tsx";
 
 const App: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const App: React.FC = () => {
       <Route path="/formpage" element={<FormPage />} />
       <Route path="/registration" element={<RegistrationPage />} />
       <Route path="/patient" element={<PatientRegistrationPage />} />
+      <Route path="/job" element={<JobApplication />} />
     </Routes>
   );
 };
