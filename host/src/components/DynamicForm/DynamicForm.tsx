@@ -1,19 +1,19 @@
-import React from "react";
-import { useForm, SubmitHandler, useWatch } from "react-hook-form";
 import {
-  TextField,
   Button,
-  Grid,
   FormControl,
   FormControlLabel,
-  RadioGroup,
-  Radio,
+  FormHelperText,
   FormLabel,
+  Grid,
   InputLabel,
   MenuItem,
+  Radio,
+  RadioGroup,
   Select,
-  FormHelperText,
+  TextField,
 } from "@mui/material";
+import React from "react";
+import { useForm, useWatch } from "react-hook-form";
 
 type FieldType =
   | "text"
@@ -63,20 +63,6 @@ const DynamicForm: React.FC<Props> = ({ config, onSubmit }) => {
 
   const watchedFields = useWatch({ control });
 
-  /* const shouldShowField = (field: FieldConfig) => {
-    if (!field.showIf) return true;
-
-    const fieldValue = watchedFields[field.showIf.field];
-
-    if (field.showIf.field === "birthDate" && fieldValue) {
-      const selectedDate = new Date(fieldValue);
-      const formattedDate = selectedDate.toISOString().split("T")[0]; // YYYY-MM-DD
-      return formattedDate === field.showIf.value;
-    }
-
-    return fieldValue === field.showIf.value;
-  }; */
-
   const shouldShowField = (field: FieldConfig) => {
     if (!field.showIf) return true;
 
@@ -98,80 +84,6 @@ const DynamicForm: React.FC<Props> = ({ config, onSubmit }) => {
 
     return fieldValue === field.showIf.value;
   };
-
-  /* const renderField = (field: FieldConfig) => {
-    if (!shouldShowField(field)) return null;
-
-    const commonProps = {
-      ...register(field.name, field.validation),
-    };
-
-    switch (field.type) {
-      case "text":
-      case "password":
-      case "date":
-        return (
-          <TextField
-            {...commonProps}
-            label={field.label}
-            type={field.type}
-            variant="outlined"
-            fullWidth
-            error={!!errors[field.name]}
-            helperText={errors[field.name]?.message}
-            margin="normal"
-          />
-        );
-      case "radio":
-        return (
-          <FormControl component="fieldset" margin="normal" fullWidth>
-            <FormLabel component="legend">{field.label}</FormLabel>
-            <RadioGroup row aria-label={field.name} {...commonProps}>
-              {field.options?.map((opt) => (
-                <FormControlLabel
-                  key={opt}
-                  value={opt}
-                  control={<Radio />}
-                  label={opt}
-                />
-              ))}
-            </RadioGroup>
-            {errors[field.name] && (
-              <FormHelperText error>
-                {errors[field.name]?.message}
-              </FormHelperText>
-            )}
-          </FormControl>
-        );
-      case "checkbox":
-        return (
-          <FormControlLabel
-            control={<input type="checkbox" {...commonProps} />}
-            label={field.label}
-          />
-        );
-      case "select":
-        return (
-          <FormControl variant="outlined" fullWidth margin="normal">
-            <InputLabel>{field.label}</InputLabel>
-            <Select {...commonProps} label={field.label}>
-              {field.options?.map((opt) => (
-                <MenuItem key={opt} value={opt}>
-                  {opt}
-                </MenuItem>
-              ))}
-            </Select>
-            {errors[field.name] && (
-              <FormHelperText error>
-                {errors[field.name]?.message}
-              </FormHelperText>
-            )}
-          </FormControl>
-        );
-      default:
-        return null;
-    }
-  }; */
 
   const renderField = (field: FieldConfig) => {
     if (!shouldShowField(field)) return null;
@@ -269,15 +181,6 @@ const DynamicForm: React.FC<Props> = ({ config, onSubmit }) => {
             <div style={{ marginBottom: "1.5rem" }}>
               <h3>{section.section}</h3>
             </div>
-            {/* {section.fields.map((field) => {
-              // Default grid values are xs: 12 if not specified
-              const gridProps = field.grid || { xs: 12 };
-              return (
-                <Grid item {...gridProps} key={field.name}>
-                  {renderField(field)}
-                </Grid>
-              );
-            })} */}
             {section.fields.map((field) => {
               const gridProps = field.grid || { xs: 12 }; // Default grid values are xs: 12 if not specified
               return (
