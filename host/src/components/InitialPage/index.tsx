@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { styles } from "./index.module";
 import HostApp from "./HostApp";
 
 const Home = React.lazy(() => import("../../pages/Home"));
@@ -66,60 +67,3 @@ const InitialPage: React.FC = () => {
 };
 
 export default InitialPage;
-
-const styles = {
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100vh",
-    fontFamily: 'Arial", sans-serif',
-    backgroundColor: "#f4f4f9",
-    margin: 0,
-  },
-  errorBox: {
-    textAlign: "center" as const,
-    padding: "20px",
-    borderRadius: "10px",
-    backgroundColor: "#ffe9e9",
-    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-    maxWidth: "400px",
-  },
-  errorTitle: {
-    color: "#ff4d4f",
-    fontSize: "24px",
-    marginBottom: "10px",
-  },
-  errorMessage: {
-    color: "#333",
-    fontSize: "16px",
-    marginBottom: "20px",
-  },
-  retryButton: {
-    backgroundColor: "#ff4d4f",
-    color: "white",
-    padding: "10px 20px",
-    fontSize: "16px",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
-  },
-  loadingBox: {
-    textAlign: "center" as const,
-    padding: "20px",
-    borderRadius: "10px",
-    backgroundColor: "#e3f2fd",
-    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-    maxWidth: "400px",
-  },
-  loadingTitle: {
-    color: "#1976d2",
-    fontSize: "24px",
-    marginBottom: "10px",
-  },
-  loadingMessage: {
-    color: "#333",
-    fontSize: "16px",
-  },
-};
