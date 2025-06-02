@@ -186,6 +186,24 @@ export const patientRegistrationFormConfig = [
         },
         grid: { xs: 12, sm: 6 },
       },
+      {
+        name: "preExistingConditions",
+        label: "Pre-existing Conditions",
+        type: "header",
+        grid: { xs: 12 },
+      },
+      {
+        name: "medications",
+        label: "Current Medications",
+        type: "textarea",
+        grid: { xs: 12 },
+      },
+      {
+        name: "allergies",
+        label: "Allergies",
+        type: "textarea",
+        grid: { xs: 12 },
+      },
     ],
   },
   {

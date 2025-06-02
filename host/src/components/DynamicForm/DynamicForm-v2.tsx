@@ -33,13 +33,13 @@ type FieldConfig = {
   defaultValue?: any;
   validation?: any;
   options?: string[];
-  showIf?: { field: string; value: any }; // conditional display
-  grid?: { xs?: number; sm?: number; md?: number; lg?: number }; // Grid layout config
+  showIf?: { field: string; value: any };
+  grid?: { xs?: number; sm?: number; md?: number; lg?: number };
 };
 
 type SectionConfig = {
   section: string;
-  fields: FieldConfig[];
+  fields: (FieldConfig | { group: FieldConfig[] })[];
 };
 
 interface Props {
@@ -49,7 +49,11 @@ interface Props {
 
 const DynamicForm: React.FC<Props> = ({ config, onSubmit }) => {
   const defaultValues = config
-    .flatMap((section) => section.fields)
+    .flatMap((section) =>
+      section.fields.flatMap((field) =>
+        "group" in field ? field.group : field
+      )
+    )
     .reduce((acc, field) => {
       acc[field.name] = field.defaultValue ?? "";
       return acc;
@@ -66,32 +70,18 @@ const DynamicForm: React.FC<Props> = ({ config, onSubmit }) => {
 
   const shouldShowField = (field: FieldConfig) => {
     if (!field.showIf) return true;
-
     const fieldValue = watchedFields[field.showIf.field];
-    console.log(
-      "showIf field:",
-      field.showIf.field,
-      "watchedFields:",
-      watchedFields,
-      "fieldValue:",
-      fieldValue
-    );
-
     if (field.showIf.field === "birthDate" && fieldValue) {
       const selectedDate = new Date(fieldValue);
-      const formattedDate = selectedDate.toISOString().split("T")[0]; // YYYY-MM-DD
+      const formattedDate = selectedDate.toISOString().split("T")[0];
       return formattedDate === field.showIf.value;
     }
-
     return fieldValue === field.showIf.value;
   };
 
   const renderField = (field: FieldConfig) => {
     if (!shouldShowField(field)) return null;
-
-    const commonProps = {
-      ...register(field.name, field.validation),
-    };
+    const commonProps = { ...register(field.name, field.validation) };
 
     switch (field.type) {
       case "text":
@@ -155,14 +145,14 @@ const DynamicForm: React.FC<Props> = ({ config, onSubmit }) => {
             )}
           </FormControl>
         );
-      case "textarea": // เพิ่มกรณีสำหรับ textarea
+      case "textarea":
         return (
           <TextField
             {...commonProps}
             label={field.label}
             variant="outlined"
             multiline
-            rows={4} // กำหนดจำนวนบรรทัดใน textarea
+            rows={4}
             fullWidth
             error={!!errors[field.name]}
             helperText={errors[field.name]?.message as React.ReactNode}
@@ -188,16 +178,35 @@ const DynamicForm: React.FC<Props> = ({ config, onSubmit }) => {
             <div style={{ marginBottom: "1.5rem" }}>
               <h3>{section.section}</h3>
             </div>
-            {section.fields.map((field) => {
-              const gridProps = field.grid || { xs: 12 }; // Default grid values are xs: 12 if not specified
-              return (
-                <Grid item {...gridProps} key={field.name}>
-                  {renderField(field)}
-                </Grid>
-              );
-            })}
+            <Grid container spacing={3}>
+              {section.fields.map((field, idx) => {
+                if ("group" in field) {
+                  return (
+                    <React.Fragment key={`group-${idx}`}>
+                      {field.group.map((subField) => (
+                        <Grid
+                          item
+                          key={subField.name}
+                          {...(subField.grid || { xs: 12 })}
+                        >
+                          {renderField(subField)}
+                        </Grid>
+                      ))}
+                    </React.Fragment>
+                  );
+                } else {
+                  const gridProps = field.grid || { xs: 12 };
+                  return (
+                    <Grid item {...gridProps} key={field.name}>
+                      {renderField(field)}
+                    </Grid>
+                  );
+                }
+              })}
+            </Grid>
           </Grid>
         ))}
+
         <Grid item xs={12}>
           <Button variant="contained" color="primary" type="submit" fullWidth>
             Submit
