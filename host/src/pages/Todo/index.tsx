@@ -1,8 +1,8 @@
 import React from "react";
-import Navbar from "../Navbar";
+import Navbar from "../../components/Navbar";
 
-import CompletedTaskCounter from "../CompleatedTaskCounter";
-import RemoteCheckerPage from "../RemoteCheckerPage";
+import CompletedTaskCounter from "../../components/CompleatedTaskCounter";
+import RemoteCheckerPage from "../../components/RemoteCheckerPage";
 
 const Welcome = React.lazy(() => import("welcomePage/Welcome"));
 const Button = React.lazy(() => import("welcomePage/Button"));
@@ -10,7 +10,7 @@ const Todo = React.lazy(() => import("welcomePage/Todo"));
 
 import useCount from "welcomePage/store";
 import useList from "welcomePage/listStore";
-import HostApp from "../InitialPage/HostApp";
+import HostApp from "../../components/InitialPage/HostApp";
 
 const LineStyle: React.FC = () => {
   return (
