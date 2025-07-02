@@ -7,7 +7,7 @@
     "dev": "vite --port 5501 --strictPort",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
+    "preview": "vite preview --port 5501 --strictPort",
     "serve": "npm run build && vite preview --port 5501 --strictPort"
   },
   "dependencies": {

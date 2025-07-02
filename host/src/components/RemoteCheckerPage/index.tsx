@@ -8,8 +8,8 @@ type UrlStatus = {
 const RemoteCheckerPage: React.FC = () => {
   const [urls, setUrls] = useState<UrlStatus[]>([
     { url: "http://localhost:5501/assets/remoteEntry.js", status: "loading" },
-    // { url: "http://localhost:5502/assets/remoteEntry.js", status: "loading" },
-    // { url: "http://localhost:5503/assets/remoteEntry.js", status: "loading" },
+    { url: "http://localhost:5502/assets/remoteEntry.js", status: "loading" },
+    { url: "http://localhost:5503/assets/remoteEntry.js", status: "loading" },
   ]);
 
   const checkUrls = async () => {
