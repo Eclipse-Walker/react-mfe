@@ -1,212 +1,129 @@
-import {
-  Button,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  FormLabel,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  Select,
-  TextField,
-} from "@mui/material";
-import React from "react";
-import { useForm, useWatch } from "react-hook-form";
+import React from 'react';
+import { Button, Box, Paper, Typography, Container } from '@mui/material';
+import { useForm } from 'react-hook-form';
+import { SectionConfig, FormData, FormSubmissionHandler } from '../../config/types';
+import FieldRenderer from './fields/FieldRenderer';
+import useConditionalFields from './hooks/useConditionalFields';
 
-type FieldType =
-  | "text"
-  | "number"
-  | "select"
-  | "radio"
-  | "checkbox"
-  | "textarea"
-  | "date"
-  | "password"
-  | "header"
-  | "email"
-
-type FieldConfig = {
-  name: string;
-  label: string;
-  type: FieldType;
-  defaultValue?: any;
-  validation?: any;
-  options?: string[];
-  showIf?: { field: string; value: any }; // conditional display
-  grid?: { xs?: number; sm?: number; md?: number; lg?: number }; // Grid layout config
-};
-
-type SectionConfig = {
-  section: string;
-  fields: FieldConfig[];
-};
-
-interface Props {
+interface DynamicFormProps {
   config: SectionConfig[];
-  onSubmit: (data: any) => void;
+  onSubmit: FormSubmissionHandler;
+  submitButtonText?: string;
+  showResetButton?: boolean;
+  resetButtonText?: string;
 }
 
-const DynamicForm: React.FC<Props> = ({ config, onSubmit }) => {
-  const defaultValues = config
-    .flatMap((section) => section.fields)
-    .reduce((acc, field) => {
-      acc[field.name] = field.defaultValue ?? "";
-      return acc;
-    }, {} as any);
+const DynamicForm: React.FC<DynamicFormProps> = ({
+  config,
+  onSubmit,
+  submitButtonText = 'Submit',
+  showResetButton = false,
+  resetButtonText = 'Reset',
+}) => {
+  // Generate default values from config
+  const defaultValues = React.useMemo(() => {
+    const values: Record<string, string | number | boolean> = {};
+    config.forEach((section) => {
+      section.fields.forEach((field) => {
+        if (field.type !== 'header') {
+          values[field.name] = field.defaultValue ?? '';
+        }
+      });
+    });
+    return values;
+  }, [config]);
 
   const {
-    register,
-    handleSubmit,
     control,
-    formState: { errors },
-  } = useForm({ defaultValues });
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<FormData>({
+    defaultValues,
+    mode: 'onChange',
+  });
 
-  const watchedFields = useWatch({ control });
+  const { shouldShowField } = useConditionalFields(control);
 
-  const shouldShowField = (field: FieldConfig) => {
-    if (!field.showIf) return true;
-
-    const fieldValue = watchedFields[field.showIf.field];
-    console.log(
-      "showIf field:",
-      field.showIf.field,
-      "watchedFields:",
-      watchedFields,
-      "fieldValue:",
-      fieldValue
-    );
-
-    if (field.showIf.field === "birthDate" && fieldValue) {
-      const selectedDate = new Date(fieldValue);
-      const formattedDate = selectedDate.toISOString().split("T")[0]; // YYYY-MM-DD
-      return formattedDate === field.showIf.value;
+  const handleFormSubmit = async (data: FormData) => {
+    try {
+      await onSubmit(data);
+    } catch (error) {
+      console.error('Form submission error:', error);
     }
-
-    return fieldValue === field.showIf.value;
   };
 
-  const renderField = (field: FieldConfig) => {
-    if (!shouldShowField(field)) return null;
-
-    const commonProps = {
-      ...register(field.name, field.validation),
-    };
-
-    switch (field.type) {
-      case "email":
-      case "text":
-      case "password":
-      case "date":
-        return (
-          <TextField
-            {...commonProps}
-            label={field.label}
-            type={field.type}
-            variant="outlined"
-            fullWidth
-            error={!!errors[field.name]}
-            helperText={errors[field.name]?.message as React.ReactNode}
-            margin="normal"
-          />
-        );
-      case "radio":
-        return (
-          <FormControl component="fieldset" margin="normal" fullWidth>
-            <FormLabel component="legend">{field.label}</FormLabel>
-            <RadioGroup row aria-label={field.name} {...commonProps}>
-              {field.options?.map((opt) => (
-                <FormControlLabel
-                  key={opt}
-                  value={opt}
-                  control={<Radio />}
-                  label={opt}
-                />
-              ))}
-            </RadioGroup>
-            {errors[field.name] && (
-              <FormHelperText error>
-                {errors[field.name]?.message as React.ReactNode}
-              </FormHelperText>
-            )}
-          </FormControl>
-        );
-      case "checkbox":
-        return (
-          <FormControlLabel
-            control={<input type="checkbox" {...commonProps} />}
-            label={field.label}
-          />
-        );
-      case "select":
-        return (
-          <FormControl variant="outlined" fullWidth margin="normal">
-            <InputLabel>{field.label}</InputLabel>
-            <Select {...commonProps} label={field.label}>
-              {field.options?.map((opt) => (
-                <MenuItem key={opt} value={opt}>
-                  {opt}
-                </MenuItem>
-              ))}
-            </Select>
-            {errors[field.name] && (
-              <FormHelperText error>
-                {errors[field.name]?.message as React.ReactNode}
-              </FormHelperText>
-            )}
-          </FormControl>
-        );
-      case "textarea": // เพิ่มกรณีสำหรับ textarea
-        return (
-          <TextField
-            {...commonProps}
-            label={field.label}
-            variant="outlined"
-            multiline
-            rows={3} // กำหนดจำนวนบรรทัดใน textarea
-            fullWidth
-            error={!!errors[field.name]}
-            helperText={errors[field.name]?.message as React.ReactNode}
-            margin="normal"
-          />
-        );
-      case "header":
-        return (
-          <div style={{ margin: "5px" }}>
-            <p>{field.label}</p>
-          </div>
-        );
-      default:
-        return null;
-    }
+  const handleReset = () => {
+    reset();
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={3}>
-        {config.map((section) => (
-          <Grid item xs={12} key={section.section}>
-            <div style={{ marginBottom: "1.5rem" }}>
-              <h3>{section.section}</h3>
-            </div>
-            {section.fields.map((field) => {
-              const gridProps = field.grid || { xs: 12 }; // Default grid values are xs: 12 if not specified
-              return (
-                <Grid item {...gridProps} key={field.name}>
-                  {renderField(field)}
-                </Grid>
-              );
-            })}
-          </Grid>
-        ))}
-        <Grid item xs={12}>
-          <Button variant="contained" color="primary" type="submit" fullWidth>
-            Submit
-          </Button>
-        </Grid>
-      </Grid>
-    </form>
+    <Container maxWidth="md">
+      <Paper elevation={2} sx={{ p: 4 }}>
+        <form onSubmit={handleSubmit(handleFormSubmit)}>
+          {config.map((section) => (
+            <Box key={section.section} sx={{ mb: 4 }}>
+              <Typography variant="h4" component="h2" sx={{ mb: 2 }}>
+                {section.section}
+              </Typography>
+              {section.description && (
+                <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+                  {section.description}
+                </Typography>
+              )}
+              
+              <Box sx={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: 2 
+              }}>
+                {section.fields
+                  .filter((field) => shouldShowField(field))
+                  .map((field) => (
+                    <Box key={field.name}>
+                      <FieldRenderer
+                        field={field}
+                        control={control}
+                        error={errors[field.name] as import('react-hook-form').FieldError}
+                      />
+                    </Box>
+                  ))}
+              </Box>
+            </Box>
+          ))}
+
+          {/* Form Actions */}
+          <Box sx={{ 
+            display: 'flex', 
+            gap: 2, 
+            justifyContent: 'flex-end', 
+            mt: 4,
+            pt: 2,
+            borderTop: '1px solid #e0e0e0'
+          }}>
+            {showResetButton && (
+              <Button
+                variant="outlined"
+                onClick={handleReset}
+                disabled={isSubmitting}
+                sx={{ minWidth: 120 }}
+              >
+                {resetButtonText}
+              </Button>
+            )}
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={isSubmitting}
+              sx={{ minWidth: 120 }}
+            >
+              {isSubmitting ? 'Submitting...' : submitButtonText}
+            </Button>
+          </Box>
+        </form>
+      </Paper>
+    </Container>
   );
 };
 

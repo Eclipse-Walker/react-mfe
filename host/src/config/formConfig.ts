@@ -1,6 +1,7 @@
 // formConfig.ts
+import { SectionConfig } from './types';
 
-export const formConfig = [
+export const formConfig: SectionConfig[] = [
   {
     section: "Personal Info",
     fields: [
@@ -51,7 +52,7 @@ export const formConfig = [
   },
 ];
 
-export const registrationFormConfig = [
+export const registrationFormConfig: SectionConfig[] = [
   {
     section: "Personal Info",
     fields: [
@@ -60,21 +61,21 @@ export const registrationFormConfig = [
         label: "First Name",
         type: "text",
         validation: { required: "First name is required" },
-        grid: { xs: 12, sm: 6, md: 4 }, // Grid for this field
+        grid: { xs: 12, sm: 6, md: 4 },
       },
       {
         name: "lastName",
         label: "Last Name",
         type: "text",
         validation: { required: "Last name is required" },
-        grid: { xs: 12, sm: 6, md: 4 }, // Grid for this field
+        grid: { xs: 12, sm: 6, md: 4 },
       },
       {
         name: "birthDate",
         label: "Date of Birth",
         type: "date",
         validation: { required: "Date of birth is required" },
-        grid: { xs: 12, sm: 6, md: 4 }, // Grid for this field
+        grid: { xs: 12, sm: 6, md: 4 },
       },
       {
         name: "age",
@@ -82,21 +83,20 @@ export const registrationFormConfig = [
         type: "number",
         validation: { required: "Age is required" },
         showIf: { field: "birthDate", value: "2000-01-01" },
-        grid: { xs: 12, sm: 6, md: 4 }, // Grid for this field
+        grid: { xs: 12, sm: 6, md: 4 },
       },
     ],
   },
 ];
 
-// formConfig.ts
-export const resetPasswordFormConfig = [
+export const resetPasswordFormConfig: SectionConfig[] = [
   {
     section: "Reset Your Password",
     fields: [
       {
         name: "email",
         label: "Email",
-        type: "text",
+        type: "email",
         validation: {
           required: "Email is required",
           pattern: {
@@ -136,7 +136,7 @@ export const resetPasswordFormConfig = [
   },
 ];
 
-export const patientRegistrationFormConfig = [
+export const patientRegistrationFormConfig: SectionConfig[] = [
   {
     section: "Personal Information",
     fields: [
@@ -287,7 +287,7 @@ export const patientRegistrationFormConfig = [
   },
 ];
 
-export const jobApplicationFormConfig = [
+export const jobApplicationFormConfig: SectionConfig[] = [
   {
     section: "Job Application Form",
     description:
