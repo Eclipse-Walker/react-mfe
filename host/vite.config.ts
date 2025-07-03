@@ -17,7 +17,7 @@ export default defineConfig({
       name: "host",
       filename: "remoteEntryHost.js",
       remotes: {
-        welcomePage: "http://localhost:5501/assets/remoteEntry.js",
+        welcomePage: "http://localhost:5511/assets/remoteEntry.js",
         // welcomePage2: "http://localhost:5502/assets/remoteEntry.js",
       },
       exposes: {

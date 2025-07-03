@@ -24,7 +24,8 @@ type FieldType =
   | "textarea"
   | "date"
   | "password"
-  | "header";
+  | "header"
+  | "email"
 
 type FieldConfig = {
   name: string;
@@ -94,6 +95,7 @@ const DynamicForm: React.FC<Props> = ({ config, onSubmit }) => {
     };
 
     switch (field.type) {
+      case "email":
       case "text":
       case "password":
       case "date":
@@ -162,7 +164,7 @@ const DynamicForm: React.FC<Props> = ({ config, onSubmit }) => {
             label={field.label}
             variant="outlined"
             multiline
-            rows={4} // กำหนดจำนวนบรรทัดใน textarea
+            rows={3} // กำหนดจำนวนบรรทัดใน textarea
             fullWidth
             error={!!errors[field.name]}
             helperText={errors[field.name]?.message as React.ReactNode}
@@ -209,3 +211,5 @@ const DynamicForm: React.FC<Props> = ({ config, onSubmit }) => {
 };
 
 export default DynamicForm;
+
+/* the dogs is boring... */

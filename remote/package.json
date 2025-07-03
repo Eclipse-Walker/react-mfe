@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 5501 --strictPort",
+    "dev": "vite --port 5511 --strictPort",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "serve": "npm run build && vite preview --port 5501 --strictPort"
+    "serve": "npm run build && vite preview --port 5511 --strictPort"
   },
   "dependencies": {
     "jotai": "^2.12.2",

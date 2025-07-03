@@ -237,14 +237,14 @@ export const patientRegistrationFormConfig = [
         label: "Emergency Contact Name",
         type: "text",
         validation: { required: "Emergency contact name is required" },
-        grid: { xs: 12, sm: 6 },
+        grid: { xs: 3, sm: 6 },
       },
       {
         name: "emergencyContactPhone",
         label: "Emergency Contact Phone",
         type: "text",
         validation: { required: "Emergency contact phone is required" },
-        grid: { xs: 12, sm: 6 },
+        grid: { xs: 3, sm: 6 },
       },
     ],
   },
@@ -297,7 +297,7 @@ export const jobApplicationFormConfig = [
         name: "firstName",
         label: "First",
         type: "text",
-        grid: { xs: 6 },
+        grid: { xs: 3 },
       },
       {
         name: "lastName",
@@ -309,8 +309,18 @@ export const jobApplicationFormConfig = [
         name: "email",
         label: "Email",
         type: "email",
-        grid: { xs: 12 },
+        grid: { xs: 12, sm: 6, md: 4 },
       },
+      /* {
+        name: "email",
+        label: "Email Address",
+        type: "text",
+        validation: {
+          required: "Email is required",
+          pattern: /^\S+@\S+\.\S+$/,
+        },
+        grid: { xs: 12, sm: 6 },
+      }, */
       {
         name: "position",
         label: "What position are you applying for?",
