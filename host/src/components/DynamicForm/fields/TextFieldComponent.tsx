@@ -24,15 +24,25 @@ const TextFieldComponent: React.FC<TextFieldComponentProps> = ({
     <TextField
       {...controllerField}
       label={field.label}
-      type={field.type}
+      type={field.type === 'textarea' ? 'text' : field.type}
+      multiline={field.multiline || field.type === 'textarea'}
+      rows={field.rows}
       placeholder={field.placeholder}
       variant="outlined"
       fullWidth
-      multiline={field.multiline || field.type === 'textarea'}
-      rows={field.rows || (field.type === 'textarea' ? 4 : 1)}
       error={!!error}
-      helperText={error?.message}
-      margin="normal"
+      helperText={error?.message || field.helpText}
+      disabled={field.disabled}
+      inputProps={{
+        maxLength: field.maxLength,
+        inputMode: field.inputMode,
+        autoComplete: field.autoComplete,
+      }}
+      sx={{
+        '& .MuiOutlinedInput-root': {
+          borderRadius: 2,
+        },
+      }}
     />
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField } from '@mui/material';
+import { TextField, InputAdornment } from '@mui/material';
 import { Control, FieldError, useController } from 'react-hook-form';
 import { NumberFieldConfig } from '../../../config/types';
 
@@ -28,12 +28,25 @@ const NumberFieldComponent: React.FC<NumberFieldComponentProps> = ({
       variant="outlined"
       fullWidth
       error={!!error}
-      helperText={error?.message}
-      margin="normal"
+      helperText={error?.message || field.helpText}
+      disabled={field.disabled}
       inputProps={{
         min: field.min,
         max: field.max,
         step: field.step,
+      }}
+      InputProps={{
+        startAdornment: field.prefix ? (
+          <InputAdornment position="start">{field.prefix}</InputAdornment>
+        ) : undefined,
+        endAdornment: field.suffix ? (
+          <InputAdornment position="end">{field.suffix}</InputAdornment>
+        ) : undefined,
+      }}
+      sx={{
+        '& .MuiOutlinedInput-root': {
+          borderRadius: 2,
+        },
       }}
     />
   );

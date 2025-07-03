@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, FormControlLabel, FormHelperText, FormLabel, Radio, RadioGroup } from '@mui/material';
+import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, FormHelperText } from '@mui/material';
 import { Control, FieldError, useController } from 'react-hook-form';
 import { FieldWithOptions } from '../../../config/types';
 
@@ -21,24 +21,55 @@ const RadioFieldComponent: React.FC<RadioFieldComponentProps> = ({
   });
 
   return (
-    <FormControl component="fieldset" margin="normal" fullWidth error={!!error}>
-      <FormLabel component="legend">{field.label}</FormLabel>
+    <FormControl component="fieldset" error={!!error} fullWidth>
+      <FormLabel 
+        component="legend"
+        sx={{
+          fontSize: '1rem',
+          fontWeight: 500,
+          color: '#1976d2',
+          '&.Mui-focused': {
+            color: '#1976d2',
+          },
+        }}
+      >
+        {field.label}
+      </FormLabel>
       <RadioGroup
         {...controllerField}
-        row
-        aria-label={field.name}
-        value={controllerField.value || ''}
+        row={field.options.length <= 4}
+        sx={{ mt: 1 }}
       >
         {field.options.map((option) => (
           <FormControlLabel
-            key={option}
-            value={option}
-            control={<Radio />}
-            label={option}
+            key={option.value}
+            value={option.value}
+            control={
+              <Radio 
+                color="primary"
+                disabled={option.disabled || field.disabled}
+                sx={{
+                  '&.Mui-checked': {
+                    color: '#1976d2',
+                  },
+                }}
+              />
+            }
+            label={option.label}
+            disabled={option.disabled || field.disabled}
+            sx={{
+              '& .MuiFormControlLabel-label': {
+                fontSize: '0.95rem',
+              },
+            }}
           />
         ))}
       </RadioGroup>
-      {error && <FormHelperText>{error.message}</FormHelperText>}
+      {(error?.message || field.helpText) && (
+        <FormHelperText>
+          {error?.message || field.helpText}
+        </FormHelperText>
+      )}
     </FormControl>
   );
 };

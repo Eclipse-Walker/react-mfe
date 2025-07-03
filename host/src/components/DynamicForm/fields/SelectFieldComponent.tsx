@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, FormHelperText, Chip, Box } from '@mui/material';
 import { Control, FieldError, useController } from 'react-hook-form';
 import { FieldWithOptions } from '../../../config/types';
 
@@ -20,21 +20,72 @@ const SelectFieldComponent: React.FC<SelectFieldComponentProps> = ({
     rules: field.validation,
   });
 
+  const isMultiple = field.type === 'multiselect' || field.multiple;
+
+  const renderValue = (selected: any) => {
+    if (isMultiple && Array.isArray(selected)) {
+      return (
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+          {selected.map((value) => {
+            const option = field.options.find(opt => opt.value === value);
+            return (
+              <Chip 
+                key={value} 
+                label={option?.label || value} 
+                size="small" 
+                color="primary"
+                variant="outlined"
+              />
+            );
+          })}
+        </Box>
+      );
+    }
+    return selected;
+  };
+
   return (
-    <FormControl variant="outlined" fullWidth margin="normal" error={!!error}>
-      <InputLabel>{field.label}</InputLabel>
+    <FormControl 
+      fullWidth 
+      error={!!error}
+      sx={{
+        '& .MuiOutlinedInput-root': {
+          borderRadius: 2,
+        },
+      }}
+    >
+      <InputLabel id={`${field.name}-label`}>
+        {field.label}
+      </InputLabel>
       <Select
         {...controllerField}
+        labelId={`${field.name}-label`}
         label={field.label}
-        value={controllerField.value || ''}
+        multiple={isMultiple}
+        renderValue={isMultiple ? renderValue : undefined}
+        disabled={field.disabled}
+        sx={{
+          minHeight: 56,
+        }}
       >
         {field.options.map((option) => (
-          <MenuItem key={option} value={option}>
-            {option}
+          <MenuItem 
+            key={option.value} 
+            value={option.value}
+            disabled={option.disabled}
+            sx={{
+              color: option.color,
+            }}
+          >
+            {option.label}
           </MenuItem>
         ))}
       </Select>
-      {error && <FormHelperText>{error.message}</FormHelperText>}
+      {(error?.message || field.helpText) && (
+        <FormHelperText>
+          {error?.message || field.helpText}
+        </FormHelperText>
+      )}
     </FormControl>
   );
 };

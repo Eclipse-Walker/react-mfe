@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, FormControlLabel, FormHelperText } from '@mui/material';
+import { FormControlLabel, Checkbox, FormHelperText, Box } from '@mui/material';
 import { Control, FieldError, useController } from 'react-hook-form';
 import { CheckboxFieldConfig } from '../../../config/types';
 
@@ -21,19 +21,42 @@ const CheckboxFieldComponent: React.FC<CheckboxFieldComponentProps> = ({
   });
 
   return (
-    <>
+    <Box>
       <FormControlLabel
         control={
           <Checkbox
             {...controllerField}
             checked={!!controllerField.value}
-            onChange={(e) => controllerField.onChange(e.target.checked)}
+            onChange={(e) => {
+              const value = e.target.checked 
+                ? (field.checkedValue ?? true)
+                : (field.uncheckedValue ?? false);
+              controllerField.onChange(value);
+            }}
+            disabled={field.disabled}
+            color="primary"
+            sx={{
+              '&.Mui-checked': {
+                color: '#1976d2',
+              },
+            }}
           />
         }
         label={field.label}
+        sx={{
+          margin: 0,
+          '& .MuiFormControlLabel-label': {
+            fontSize: '1rem',
+            fontWeight: 500,
+          },
+        }}
       />
-      {error && <FormHelperText error>{error.message}</FormHelperText>}
-    </>
+      {(error?.message || field.helpText) && (
+        <FormHelperText error={!!error} sx={{ ml: 0, mt: 0.5 }}>
+          {error?.message || field.helpText}
+        </FormHelperText>
+      )}
+    </Box>
   );
 };
 

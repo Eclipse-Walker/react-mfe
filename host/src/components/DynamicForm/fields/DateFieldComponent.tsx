@@ -28,14 +28,19 @@ const DateFieldComponent: React.FC<DateFieldComponentProps> = ({
       variant="outlined"
       fullWidth
       error={!!error}
-      helperText={error?.message}
-      margin="normal"
+      helperText={error?.message || field.helpText}
+      disabled={field.disabled}
       InputLabelProps={{
         shrink: true,
       }}
       inputProps={{
         min: field.min,
         max: field.max,
+      }}
+      sx={{
+        '& .MuiOutlinedInput-root': {
+          borderRadius: 2,
+        },
       }}
     />
   );
